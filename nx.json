@@ -3,8 +3,13 @@
   "targetDefaults": {
     "build": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
     },
     "lint": {
       "cache": true,
@@ -17,7 +22,11 @@
     },
     "@nx/jest:jest": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ],
       "options": {
         "passWithNoTests": true
       },
@@ -30,7 +39,10 @@
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -43,7 +55,7 @@
     ],
     "sharedGlobals": []
   },
-  "nxCloudAccessToken": "YWFiMTg3MGMtYjU0MC00YTFlLTkzNGItMTM4NWYzOWU1MTQ1fHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "MjhmNjcxODgtNTcwMS00YTMxLTkyYjgtNWFiYmVkNTIzYWI4fHJlYWQtd3JpdGU=",
   "generators": {
     "@nx/react": {
       "application": {
@@ -56,5 +68,8 @@
         "linter": "eslint"
       }
     }
+  },
+  "affected": {
+    "defaultBase": "main"
   }
 }

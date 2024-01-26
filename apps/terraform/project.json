@@ -4,62 +4,30 @@
   "sourceRoot": "apps/terraform/src",
   "projectType": "application",
   "targets": {
-    "build": {
-      "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
+    "apply": {
+      "executor": "nx:run-commands",
       "options": {
-        "platform": "node",
-        "outputPath": "dist/apps/terraform",
-        "format": ["cjs"],
-        "bundle": false,
-        "main": "apps/terraform/src/main.ts",
-        "tsConfig": "apps/terraform/tsconfig.app.json",
-        "assets": ["apps/terraform/src/assets"],
-        "generatePackageJson": true,
-        "esbuildOptions": {
-          "sourcemap": true,
-          "outExtension": {
-            ".js": ".js"
-          }
-        }
-      },
-      "configurations": {
-        "development": {},
-        "production": {
-          "esbuildOptions": {
-            "sourcemap": false,
-            "outExtension": {
-              ".js": ".js"
-            }
-          }
-        }
+        "commands": ["terraform -chdir=apps/terraform/src init"]
       }
     },
-    "serve": {
-      "executor": "@nx/js:node",
-      "defaultConfiguration": "development",
+    "plan": {
+      "executor": "nx:run-commands",
       "options": {
-        "buildTarget": "terraform:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "terraform:build:development"
-        },
-        "production": {
-          "buildTarget": "terraform:build:production"
-        }
+        "commands": ["terraform -chdir=apps/terraform/src plan"]
+      }
+    },
+    "init": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["terraform -chdir=apps/terraform/src init"]
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "nx:run-commands",
       "options": {
-        "jestConfig": "apps/terraform/jest.config.ts"
+        "commands": [
+          "terraform -chdir=apps/terraform/src fmt -recursive -check"
+        ]
       }
     }
   },
