@@ -16,7 +16,7 @@
         "commands": ["terraform -chdir=apps/terraform/src plan"]
       }
     },
-    "init": {
+    "run-init": {
       "executor": "nx:run-commands",
       "options": {
         "commands": ["terraform -chdir=apps/terraform/src init"]
