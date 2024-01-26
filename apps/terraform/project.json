@@ -1,0 +1,52 @@
+{
+  "name": "terraform",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/terraform/src",
+  "projectType": "application",
+  "targets": {
+    "destroy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src destroy -auto-approve"
+      }
+    },
+    "apply": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src apply -auto-approve"
+      }
+    },
+    "plan": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src plan"
+      }
+    },
+    "run-init": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src init"
+      }
+    },
+    "state-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src state pull"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["terraform fmt -recursive -check ./apps/terraform/src"]
+      }
+    },
+
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo $(pwd)"
+      }
+    }
+  },
+  "tags": []
+}
