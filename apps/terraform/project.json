@@ -7,27 +7,38 @@
     "apply": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["terraform -chdir=apps/terraform/src init"]
+        "command": "terraform -chdir=apps/terraform/src apply -auto-approve"
       }
     },
     "plan": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["terraform -chdir=apps/terraform/src plan"]
+        "command": "terraform -chdir=apps/terraform/src plan"
       }
     },
     "run-init": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["terraform -chdir=apps/terraform/src init"]
+        "command": "terraform -chdir=apps/terraform/src init"
+      }
+    },
+    "state-pull": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src state pull"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "terraform -chdir=apps/terraform/src fmt -recursive -check"
-        ]
+        "commands": ["terraform fmt -recursive -check ./apps/terraform/src"]
+      }
+    },
+
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo $(pwd)"
       }
     }
   },
