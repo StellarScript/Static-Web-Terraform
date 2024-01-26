@@ -4,6 +4,12 @@
   "sourceRoot": "apps/terraform/src",
   "projectType": "application",
   "targets": {
+    "destroy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "terraform -chdir=apps/terraform/src destroy -auto-approve"
+      }
+    },
     "apply": {
       "executor": "nx:run-commands",
       "options": {
