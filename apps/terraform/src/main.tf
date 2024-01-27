@@ -26,3 +26,30 @@ module "build_stage_action" {
   name            = var.codebuild_name
   distribution_id = module.distribution.distribution_id
 }
+
+
+module "invalidate_stage_action" {
+  source          = "./modules/codeinvalidate"
+  name            = "${var.codebuild_name}-invalidate"
+  distribution_id = module.distribution.distribution_id
+}
+
+
+module "code_pipeline" {
+  source      = "./modules/codepipeline"
+  name        = var.pipeline_name
+  build_stage = var.codebuild_name
+  cache_stage = "${var.codebuild_name}-invalidate"
+
+  bucket = {
+    bucket_name        = var.bucket_name
+    bucket_id          = module.app_bucket.bucket_id
+    bucket_website_arn = module.app_bucket.bucket_website_arn
+  }
+
+  github = {
+    github_repo     = var.github_repo
+    github_username = var.github_username
+    github_token    = var.github_token
+  }
+}
