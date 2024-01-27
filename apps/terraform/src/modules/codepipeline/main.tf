@@ -1,7 +1,43 @@
 
+data "aws_iam_policy_document" "assume_pipeline_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["codepipeline.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+
+resource "aws_iam_role" "pipeline_role" {
+  assume_role_policy = data.aws_iam_policy_document.assume_pipeline_role.json
+}
+
+
+data "aws_iam_policy_document" "pipeline_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+     "s3:GetObject",
+      "s3:GetObjectVersion",
+      "s3:GetBucketVersioning",
+      "logs:*",
+      "cloudwatch:*",
+      "codepipeline:*",
+      "s3:PutObjectAcl",
+      "s3:PutObject",
+      "codebuild:StartBuild",
+      "codebuild:BatchGetBuilds"
+    ]
+    resources = ["*"]
+  }
+}
+
 
 resource "aws_iam_role_policy" "pipeline_policy" {
-  name   = "bucket_policy"
   role   = aws_iam_role.pipeline_role.id
   policy = data.aws_iam_policy_document.pipeline_policy.json
 }
@@ -93,38 +129,5 @@ resource "aws_codepipeline" "codepipeline" {
         ProjectName = var.cache_stage
       }
     }
-  }
-}
-
-
-data "aws_iam_policy_document" "assume_pipeline_role" {
-  statement {
-    effect = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["codepipeline.amazonaws.com"]
-    }
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-
-resource "aws_iam_role" "pipeline_role" {
-  name               = "bucket_role"
-  assume_role_policy = data.aws_iam_policy_document.assume_pipeline_role.json
-}
-
-
-data "aws_iam_policy_document" "pipeline_policy" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:GetBucketVersioning",
-      "logs:*",
-      "cloudwatch:*",
-    ]
-    resources = ["*"]
   }
 }

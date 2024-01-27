@@ -38,8 +38,8 @@ module "invalidate_stage_action" {
 module "code_pipeline" {
   source      = "./modules/codepipeline"
   name        = var.pipeline_name
-  build_stage = var.codebuild_name
-  cache_stage = "${var.codebuild_name}-invalidate"
+  build_stage = module.build_stage_action.build_stage_name
+  cache_stage = module.invalidate_stage_action.invalidate_stage_name
 
   bucket = {
     bucket_name        = var.bucket_name
