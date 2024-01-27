@@ -1,0 +1,10 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - "echo CloudFront Cache Invalidation"
+
+  build:
+    commands:
+      - 'aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"'

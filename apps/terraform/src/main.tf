@@ -22,14 +22,14 @@ module "distribution" {
 
 
 module "build_stage_action" {
-  source          = "./modules/codebuild"
+  source          = "./modules/buildstage"
   name            = var.codebuild_name
   distribution_id = module.distribution.distribution_id
 }
 
 
 module "invalidate_stage_action" {
-  source          = "./modules/codeinvalidate"
+  source          = "./modules/invalidatestage"
   name            = "${var.codebuild_name}-invalidate"
   distribution_id = module.distribution.distribution_id
 }
@@ -52,4 +52,21 @@ module "code_pipeline" {
     github_username = var.github_username
     github_token    = var.github_token
   }
+}
+
+
+
+output "distribution_id" {
+  description = "CloudFront distribution ID"
+  value       = module.distribution.distribution_id
+}
+
+output "website_url" {
+  description = "Website URL (HTTPS)"
+  value       = module.distribution.domain_name
+}
+
+output "s3_url" {
+  description = "S3 hosting URL (HTTP)"
+  value       = module.app_bucket.website_endpoint
 }

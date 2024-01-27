@@ -3,16 +3,15 @@ version: 0.2
 phases:
   install:
     commands:
-      - "echo testing"
+      - "npm add --global nx@latest"
+      - "yarn install"
 
   build:
     commands:
-      - "echo $(ls)"
-
-  post_build:
-    commands:
-      - "echo $CLOUDFRONT_ID"
+      - "nx build client"
+      - "nx export client"
 
 artifacts:
   files:
-    - index.html
+    - "**/*"
+  base-directory: "dist/exported"

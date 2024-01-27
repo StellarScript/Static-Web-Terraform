@@ -63,13 +63,15 @@ data "aws_iam_policy_document" "codebuild_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:GetObject",
+    "s3:GetObject",
       "s3:GetObjectVersion",
       "s3:GetBucketVersioning",
+      "s3:PutObjectAcl",
+      "s3:PutObject",
+      "logs:*",
+      "cloudwatch:*",
       "codebuild:BatchGetBuilds",
       "codebuild:StartBuild",
-      "cloudwatch:*",
-      "logs:*",
     ]
     resources = ["*"]
   }
