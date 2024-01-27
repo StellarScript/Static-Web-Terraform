@@ -119,9 +119,11 @@ data "aws_iam_policy_document" "pipeline_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "codebuild:BatchGetBuilds",
-      "codebuild:StartBuild",
-      "codepipeline:*"
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+      "s3:GetBucketVersioning",
+      "logs:*",
+      "cloudwatch:*",
     ]
     resources = ["*"]
   }
