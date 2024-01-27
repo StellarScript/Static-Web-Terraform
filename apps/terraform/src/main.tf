@@ -20,3 +20,9 @@ module "distribution" {
   bucket_regional_domain_name = module.app_bucket.bucket_regional_domain_name
 }
 
+
+module "build_stage_action" {
+  source          = "./modules/codebuild"
+  name            = var.codebuild_name
+  distribution_id = module.distribution.distribution_id
+}
