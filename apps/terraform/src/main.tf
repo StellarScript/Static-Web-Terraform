@@ -12,3 +12,11 @@ module "app_bucket" {
   source = "./modules/bucket"
   name   = var.bucket_name
 }
+
+
+module "distribution" {
+  source                      = "./modules/distribution"
+  bucket_endpoint             = module.app_bucket.website_endpoint
+  bucket_regional_domain_name = module.app_bucket.bucket_regional_domain_name
+}
+
