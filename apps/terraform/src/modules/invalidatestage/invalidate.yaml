@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - "echo testing"
+
+  build:
+    commands:
+      - "echo $(ls)"
+
+  post_build:
+    commands:
+      - "echo $DISTRIBUTION_ID"
+      - 'aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"'

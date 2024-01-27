@@ -22,14 +22,14 @@ module "distribution" {
 
 
 module "build_stage_action" {
-  source          = "./modules/codebuild"
+  source          = "./modules/buildstage"
   name            = var.codebuild_name
   distribution_id = module.distribution.distribution_id
 }
 
 
 module "invalidate_stage_action" {
-  source          = "./modules/codeinvalidate"
+  source          = "./modules/invalidatestage"
   name            = "${var.codebuild_name}-invalidate"
   distribution_id = module.distribution.distribution_id
 }
