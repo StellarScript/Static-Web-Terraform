@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+
 
 data "aws_iam_policy_document" "assume_pipeline_role" {
   statement {
@@ -21,7 +31,7 @@ data "aws_iam_policy_document" "pipeline_policy" {
   statement {
     effect = "Allow"
     actions = [
-     "s3:GetObject",
+      "s3:GetObject",
       "s3:GetObjectVersion",
       "s3:GetBucketVersioning",
       "logs:*",
@@ -63,17 +73,15 @@ resource "aws_codepipeline" "codepipeline" {
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "ThirdParty"
-      provider         = "GitHub"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["SourceArtifact"]
 
       configuration = {
-        Owner      = var.github.github_username
-        Repo       = var.github.github_repo
-        OAuthToken = var.github.github_token
-        Branch     = "main"
-        # PollForSourceChanges = "true"
+        BranchName     = "main"
+        FullRepositoryId = var.repository_id
+        ConnectionArn = var.codestart_connection
       }
     }
   }

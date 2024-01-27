@@ -8,6 +8,16 @@ terraform {
 }
 
 
+terraform {
+    backend "remote" {
+    organization = "appify"
+    workspaces {
+      name = "appify"
+    }
+  }
+}
+
+
 module "app_bucket" {
   source = "./modules/bucket"
   name   = var.bucket_name
@@ -47,11 +57,8 @@ module "code_pipeline" {
     bucket_website_arn = module.app_bucket.bucket_website_arn
   }
 
-  github = {
-    github_repo     = var.github_repo
-    github_username = var.github_username
-    github_token    = var.github_token
-  }
+  codestart_connection = var.codestart_connection
+  repository_id        = var.repository_id
 }
 
 

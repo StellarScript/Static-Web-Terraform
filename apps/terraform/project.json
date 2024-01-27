@@ -37,7 +37,7 @@
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["terraform fmt -recursive -check ./apps/terraform/src"]
+        "commands": ["terraform -chdir=apps/terraform/src fmt"]
       }
     },
 

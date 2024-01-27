@@ -22,11 +22,11 @@ variable "bucket" {
 }
 
 
-variable "github" {
+variable "codestart_connection" {
   sensitive = true
-  type = object({
-    github_username = string
-    github_repo     = string
-    github_token    = string
-  })
+  type      = string
+}
+
+variable "repository_id" {
+  type = string
 }

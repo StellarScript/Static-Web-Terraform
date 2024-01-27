@@ -13,19 +13,11 @@ variable "codebuild_name" {
 }
 
 
-variable "github_username" {
+variable "codestart_connection" {
   sensitive = true
   type      = string
 }
 
-
-variable "github_repo" {
-  sensitive = true
-  type      = string
-}
-
-
-variable "github_token" {
-  sensitive = true
-  type      = string
+variable "repository_id" {
+  type = string
 }

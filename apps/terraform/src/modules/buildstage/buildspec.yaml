@@ -8,9 +8,13 @@ phases:
 
   build:
     commands:
-      - "nx build client"
-      - "nx export client"
+      - "npx nx build client"
+      - "npx nx export client"
+      - "echo TESTING....."
+      - "echo $(ls)"
+      - "echo $(ls dist)"
 
 artifacts:
   files:
-    - "dist/exported/**/*"
+    - "**/*"
+  base-directory: "dist/apps/client/exported"
