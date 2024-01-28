@@ -13,6 +13,9 @@ phases:
 
 artifacts:
   files:
-    - "dist/apps/client/exported/**/*"
-  baseDirectory: dist/apps/client/.next
+    - "dist/apps/client/exported/*"
   discard-paths: yes
+
+cache:
+  paths:
+    - "node_modules"
