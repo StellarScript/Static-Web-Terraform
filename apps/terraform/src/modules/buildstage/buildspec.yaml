@@ -10,11 +10,9 @@ phases:
     commands:
       - "npx nx build client"
       - "npx nx export client"
-      - "echo TESTING....."
-      - "echo $(ls)"
-      - "echo $(ls dist)"
 
 artifacts:
+  baseDirectory: dist/apps/client/.next
   files:
-    - "**/*"
-  base-directory: "dist/apps/client/exported"
+    - "dist/apps/client/**/*"
+  discard-paths: yes

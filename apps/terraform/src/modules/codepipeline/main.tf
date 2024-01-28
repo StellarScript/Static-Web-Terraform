@@ -12,7 +12,6 @@ terraform {
 data "aws_iam_policy_document" "assume_pipeline_role" {
   statement {
     effect = "Allow"
-
     principals {
       type        = "Service"
       identifiers = ["codepipeline.amazonaws.com"]
@@ -40,7 +39,9 @@ data "aws_iam_policy_document" "pipeline_policy" {
       "s3:PutObjectAcl",
       "s3:PutObject",
       "codebuild:StartBuild",
-      "codebuild:BatchGetBuilds"
+      "codebuild:BatchGetBuilds",
+      "s3:PutBucketPolicy",
+      "codestar-connections:*"
     ]
     resources = ["*"]
   }
@@ -56,11 +57,9 @@ resource "aws_iam_role_policy" "pipeline_policy" {
 resource "aws_codepipeline" "codepipeline" {
   name     = var.name
   role_arn = aws_iam_role.pipeline_role.arn
-
   artifact_store {
     location = var.bucket.bucket_name
     type     = "S3"
-
     # encryption_key {
     #   id   = data.aws_kms_alias.s3kmskey.arn
     #   type = "KMS"
@@ -69,7 +68,6 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Source"
-
     action {
       name             = "Source"
       category         = "Source"
@@ -77,7 +75,6 @@ resource "aws_codepipeline" "codepipeline" {
       provider         = "CodeStarSourceConnection"
       version          = "1"
       output_artifacts = ["SourceArtifact"]
-
       configuration = {
         BranchName     = "main"
         FullRepositoryId = var.repository_id
@@ -88,7 +85,6 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Build"
-
     action {
       name             = "Build"
       category         = "Build"
@@ -97,7 +93,6 @@ resource "aws_codepipeline" "codepipeline" {
       input_artifacts  = ["SourceArtifact"]
       output_artifacts = ["OutputArtifact"]
       version          = "1"
-
       configuration = {
         ProjectName = var.build_stage
       }
@@ -106,13 +101,12 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Deploy"
-
     action {
       name            = "Deploy"
       category        = "Deploy"
       owner           = "AWS"
       provider        = "S3"
-      input_artifacts = ["SourceArtifact"]
+      input_artifacts = ["OutputArtifact"]
       version         = "1"
 
       configuration = {
@@ -124,7 +118,6 @@ resource "aws_codepipeline" "codepipeline" {
 
   stage {
     name = "Cache"
-
     action {
       name            = "Cache"
       category        = "Build"

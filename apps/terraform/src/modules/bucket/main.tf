@@ -30,9 +30,8 @@ resource "aws_s3_bucket_public_access_block" "client-public" {
 
 resource "aws_s3_bucket_website_configuration" "hosting" {
   bucket = aws_s3_bucket.app_bucket.id
-
   index_document {
-    suffix = "index.html"
+    suffix = var.root_file
   }
 }
 
@@ -57,7 +56,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
           "Effect" : "Allow",
           "Principal" : "*",
           "Action" : "s3:GetObject",
-          "Resource" : "arn:aws:s3:::${aws_s3_bucket.app_bucket.id}/*"
+          "Resource" : "arn:aws:s3:::${aws_s3_bucket.app_bucket.id}/${var.root_file}"
         }
       ]
     }
