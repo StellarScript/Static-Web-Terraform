@@ -12,7 +12,7 @@ phases:
       - "npx nx export client"
 
 artifacts:
-  baseDirectory: dist/apps/client/.next
   files:
-    - "dist/apps/client/**/*"
+    - "dist/apps/client/exported/**/*"
+  baseDirectory: dist/apps/client/.next
   discard-paths: yes
